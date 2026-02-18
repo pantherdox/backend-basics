@@ -1,66 +1,47 @@
 const express = require("express")
-
-const app = express();
+const app = express()
 
 app.use(express.json())
 
-let users = [
-    {id: 1, name: "aryaman"},
-    {id: 2, name: "nitin"}, 
-    {id: 3, name: "techible"}
-]
+const sendNoti = (req, res, next) => {
+    console.log("Request received");
+    console.log("Request url is :::", req.url);
+    console.log("request method is :::", req.method)
+    next();
+    // return res.status(403).send("Forbidden");
+}
 
-app.get("/users", (req, res) => {
-    res.status(200).json(users)
-})
+// app.use((err, req, res, next)=> {
+//     console.error(err.stack);
 
-app.get("/users/:id", (req, res) => {
-    console.log(req.url)
-    const id = parseInt(req.params.id)
-    const user = users.find(key => key.id === id)
-
-    if(!user) {
-        return res.status(404).json({message: "User not found"})
-    }
-
-    res.json(user)
-})
-
-app.post("/users", (req, res) => {
-    const newUser = {
-        id: users.length + 1,
-        name: req.body.name
-    }
-
-    users.push(newUser);
-    res.status(201).json(newUser)
-})
-
-
-app.listen(5051, () => {
-    console.log("Server is running now on port 5051")
-})
-// app.get("/", (req, res) => {
-//     res.send("Hello i am a express server")
-// })
-
-// app.get("/about", (req, res)=>{
-//     res.send("We are at the about page")
-// })
-
-// app.get("/contact", (req, res)=>{
-//     res.send("We are at the contact page")
-// })
-
-// app.get("/info", (req, res)=>{
-//     console.log(req.method);
-//     console.log(req.url);
-//     res.status(404).send("not found anything here")
-// })
-
-// app.get("/api/user", (req, res) => {
-//     res.json({
-//         id: "007",
-//         name: "Aryaman"
+//     res.status(err.status || 500).json({
+//         message: err.message || "internal server error"
 //     })
 // })
+
+// app.use((req, res, next)=> {
+//     console.log("Request received")
+//     console.log("request url is :: ", req.url)
+//     console.log("Middleware 1")
+//     next();
+// })
+
+// app.use((req, res, next)=> {
+//     console.log("Middleware 2")
+//     next();
+// })
+
+// app.use((req, res, next)=> {
+//     console.log("Middleware 3")
+//     next();
+// })
+
+const bookRoutes = require("./routes/bookRoutes")
+const userRoutes = require("./routes/userRoutes")
+
+app.use("/books", bookRoutes)
+app.use("/users", sendNoti, userRoutes)
+
+app.listen(5051, ()=> {
+    console.log("Server is listening on port 5051")
+})
