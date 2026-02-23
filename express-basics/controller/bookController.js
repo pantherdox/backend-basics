@@ -1,5 +1,10 @@
-let books = []
+const Book = require("../models/Book")
 
-exports.getAllBooks = (req, res) => {
-    res.json(books)
+exports.createBook = async (req, res, next) => {
+    try{
+        const book = await Book.create(req.body);
+        res.status(201).json(book)
+    }catch(err){
+        next(err)
+    }
 }
