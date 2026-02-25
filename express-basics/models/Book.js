@@ -3,7 +3,9 @@ const mongoose = require("mongoose")
 const bookSchema = new mongoose.Schema({
    title: {
     type: String,
-    required: true
+    required: [true, "Title is required"],
+    minLength: 5,
+    maxLength: 20
    },
    author: {
     type: String,
@@ -11,7 +13,9 @@ const bookSchema = new mongoose.Schema({
    },
    price: {
     type: Number,
-    required: true
+    required: true,
+    min: 0,
+    max: 100
    }
 })
 
