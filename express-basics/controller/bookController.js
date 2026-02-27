@@ -32,7 +32,12 @@ exports.getAllBooks = async (req,res, next) => {
             filters.price = req.query.price
         }
 
-        const books = await Book.find(filters)
+        const page = parseInt(req.query.page) || 1
+        const limit = parseInt(req.query.limit) || 5
+
+        const skip = (page - 1) * limit
+
+        const books = await Book.find(filters).skip(skip).limit(limit)
 
         res.status(200).json(books)
     }catch(err){

@@ -1,9 +1,11 @@
 require("dotenv").config();
 const express = require("express")
 const mongoose = require("mongoose")
+const cors = require("cors")
 const app = express()
 
 app.use(express.json())
+app.use(cors())
 
 // const sendNoti = (req, res, next) => {
 //     console.log("Request received");
@@ -14,9 +16,10 @@ app.use(express.json())
 // }
 
 const bookRoutes = require("./routes/bookRoutes")
-// const userRoutes = require("./routes/userRoutes")
+const authRoutes = require("./routes/authRoutes")
 
 app.use("/books", bookRoutes)
+app.use("/auth", authRoutes)
 // app.use("/users", sendNoti, userRoutes)
 
 mongoose.connect(process.env.MONGODB_URI)
