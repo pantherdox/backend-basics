@@ -17,9 +17,15 @@ app.use(cors())
 
 const bookRoutes = require("./routes/bookRoutes")
 const authRoutes = require("./routes/authRoutes")
+const uploadRoutes = require("./routes/uploadRoutes")
+const emailRoutes = require("./routes/emailRoutes")
+const paymentRoutes = require("./routes/paymentRoutes")
 
 app.use("/books", bookRoutes)
 app.use("/auth", authRoutes)
+app.use("/upload", uploadRoutes)
+app.use("/sendEmail", emailRoutes)
+app.use("/payment", paymentRoutes)
 // app.use("/users", sendNoti, userRoutes)
 
 mongoose.connect(process.env.MONGODB_URI)
